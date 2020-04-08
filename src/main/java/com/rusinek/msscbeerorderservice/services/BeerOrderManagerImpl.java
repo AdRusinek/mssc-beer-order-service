@@ -16,8 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-import static com.rusinek.msscbeerorderservice.domain.BeerOrderEventEnum.VALIDATION_FAILED;
-import static com.rusinek.msscbeerorderservice.domain.BeerOrderEventEnum.VALIDATION_PASSED;
+import static com.rusinek.msscbeerorderservice.domain.BeerOrderEventEnum.*;
 
 /**
  * Created by Adrian Rusinek on 08.04.2020
@@ -51,6 +50,10 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
 
         if (isValid) {
             sendBeerOrderEvent(beerOrder, VALIDATION_PASSED);
+
+            BeerOrder validatedOrder = beerOrderRepository.findOneById(beerOrderId);
+
+            sendBeerOrderEvent(validatedOrder, ALLOCATE_ORDER);
         } else {
             sendBeerOrderEvent(beerOrder, VALIDATION_FAILED);
         }

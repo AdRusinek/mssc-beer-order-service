@@ -12,19 +12,23 @@ import org.springframework.statemachine.config.builders.StateMachineTransitionCo
 
 import java.util.EnumSet;
 
+import static com.rusinek.msscbeerorderservice.domain.BeerOrderEventEnum.*;
+import static com.rusinek.msscbeerorderservice.domain.BeerOrderStatusEnum.*;
+
 /**
  * Created by Adrian Rusinek on 08.04.2020
  **/
 @Configuration
 @EnableStateMachineFactory
 @RequiredArgsConstructor
-public class BeerOrderStateMachineConfig extends StateMachineConfigurerAdapter<BeerOrderStatusEnum,BeerOrderEventEnum> {
+public class BeerOrderStateMachineConfig extends StateMachineConfigurerAdapter<BeerOrderStatusEnum, BeerOrderEventEnum> {
 
     private final Action<BeerOrderStatusEnum, BeerOrderEventEnum> validateOrderAction;
+    private final Action<BeerOrderStatusEnum, BeerOrderEventEnum> allocateOrderRequest;
 
     @Override
     public void configure(StateMachineStateConfigurer<BeerOrderStatusEnum, BeerOrderEventEnum> states) throws Exception {
-        states.withStates().initial(BeerOrderStatusEnum.NEW)
+        states.withStates().initial(NEW)
                 .states(EnumSet.allOf(BeerOrderStatusEnum.class))
                 .end(BeerOrderStatusEnum.PICKED_UP)
                 .end(BeerOrderStatusEnum.DELIVERED)
@@ -36,17 +40,23 @@ public class BeerOrderStateMachineConfig extends StateMachineConfigurerAdapter<B
     @Override
     public void configure(StateMachineTransitionConfigurer<BeerOrderStatusEnum, BeerOrderEventEnum> transitions) throws Exception {
         transitions.withExternal()
-                .source(BeerOrderStatusEnum.NEW).target(BeerOrderStatusEnum.VALIDATION_PENDING)
-                .event(BeerOrderEventEnum.VALIDATE_ORDER)
+                .source(NEW).target(VALIDATION_PENDING)
+                .event(VALIDATE_ORDER)
                 .action(validateOrderAction)
                 .and()
                 .withExternal()
-                .source(BeerOrderStatusEnum.NEW).target(BeerOrderStatusEnum.VALIDATED)
-                .event(BeerOrderEventEnum.VALIDATION_PASSED)
+                .source(NEW).target(VALIDATED)
+                .event(VALIDATION_PASSED)
                 .and()
                 .withExternal()
-                .source(BeerOrderStatusEnum.NEW)
-                .target(BeerOrderStatusEnum.VALIDATION_EXCEPTION)
-                .event(BeerOrderEventEnum.VALIDATION_FAILED);
+                .source(NEW)
+                .target(VALIDATION_EXCEPTION)
+                .event(VALIDATION_FAILED)
+                .and()
+                .withExternal()
+                .source(VALIDATED)
+                .target(ALLOCATION_PENDING)
+                .event(ALLOCATE_ORDER)
+                .action(allocateOrderRequest);
     }
 }
