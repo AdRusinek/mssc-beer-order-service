@@ -14,6 +14,11 @@ import org.springframework.statemachine.support.DefaultStateMachineContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
+import static com.rusinek.msscbeerorderservice.domain.BeerOrderEventEnum.VALIDATION_FAILED;
+import static com.rusinek.msscbeerorderservice.domain.BeerOrderEventEnum.VALIDATION_PASSED;
+
 /**
  * Created by Adrian Rusinek on 08.04.2020
  **/
@@ -40,11 +45,22 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
         return savedBeerOrder;
     }
 
+    @Override
+    public void processValidationResult(UUID beerOrderId, Boolean isValid) {
+        BeerOrder beerOrder = beerOrderRepository.getOne(beerOrderId);
+
+        if (isValid) {
+            sendBeerOrderEvent(beerOrder, VALIDATION_PASSED);
+        } else {
+            sendBeerOrderEvent(beerOrder, VALIDATION_FAILED);
+        }
+    }
+
     private void sendBeerOrderEvent(BeerOrder beerOrder, BeerOrderEventEnum eventEnum) {
         StateMachine<BeerOrderStatusEnum, BeerOrderEventEnum> sm = build(beerOrder);
 
         Message message = MessageBuilder.withPayload(eventEnum)
-                .setHeader(ORDER_ID_HEADER,beerOrder.getId().toString())
+                .setHeader(ORDER_ID_HEADER, beerOrder.getId().toString())
                 .build();
 
         sm.sendEvent(message);
