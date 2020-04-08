@@ -24,7 +24,7 @@ import static com.rusinek.msscbeerorderservice.domain.BeerOrderStatusEnum.*;
 public class BeerOrderStateMachineConfig extends StateMachineConfigurerAdapter<BeerOrderStatusEnum, BeerOrderEventEnum> {
 
     private final Action<BeerOrderStatusEnum, BeerOrderEventEnum> validateOrderAction;
-    private final Action<BeerOrderStatusEnum, BeerOrderEventEnum> allocateOrderRequest;
+    private final Action<BeerOrderStatusEnum, BeerOrderEventEnum> allocateOrderAction;
 
     @Override
     public void configure(StateMachineStateConfigurer<BeerOrderStatusEnum, BeerOrderEventEnum> states) throws Exception {
@@ -57,6 +57,12 @@ public class BeerOrderStateMachineConfig extends StateMachineConfigurerAdapter<B
                 .source(VALIDATED)
                 .target(ALLOCATION_PENDING)
                 .event(ALLOCATE_ORDER)
-                .action(allocateOrderRequest);
+                .action(allocateOrderAction)
+                .and().withExternal().source(ALLOCATION_PENDING).target(ALLOCATED)
+                .event(ALLOCATION_SUCCESS)
+                .and().withExternal().source(ALLOCATION_PENDING).target(ALLOCATION_EXCEPTION)
+                .event(ALLOCATION_FAILED)
+                .and().withExternal().source(ALLOCATION_PENDING).target(PENDING_INVENTORY)
+                .event(ALLOCATION_NO_INVENTORY);
     }
 }
