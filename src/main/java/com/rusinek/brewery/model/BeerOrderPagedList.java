@@ -1,4 +1,4 @@
-package com.rusinek.msscbeerorderservice.web.model;
+package com.rusinek.brewery.model;
 
 
 import org.springframework.data.domain.PageImpl;

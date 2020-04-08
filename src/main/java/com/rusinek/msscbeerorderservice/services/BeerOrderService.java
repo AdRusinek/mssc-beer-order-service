@@ -1,8 +1,8 @@
 package com.rusinek.msscbeerorderservice.services;
 
 
-import com.rusinek.msscbeerorderservice.web.model.BeerOrderDto;
-import com.rusinek.msscbeerorderservice.web.model.BeerOrderPagedList;
+import com.rusinek.brewery.model.BeerOrderDto;
+import com.rusinek.brewery.model.BeerOrderPagedList;
 import org.springframework.data.domain.Pageable;
 
 import java.util.UUID;

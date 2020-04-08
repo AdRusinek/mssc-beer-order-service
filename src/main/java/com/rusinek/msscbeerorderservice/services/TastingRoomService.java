@@ -5,8 +5,8 @@ import com.rusinek.msscbeerorderservice.domain.Customer;
 import com.rusinek.msscbeerorderservice.repositories.BeerOrderRepository;
 import com.rusinek.msscbeerorderservice.repositories.CustomerRepository;
 
-import com.rusinek.msscbeerorderservice.web.model.BeerOrderDto;
-import com.rusinek.msscbeerorderservice.web.model.BeerOrderLineDto;
+import com.rusinek.brewery.model.BeerOrderDto;
+import com.rusinek.brewery.model.BeerOrderLineDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;

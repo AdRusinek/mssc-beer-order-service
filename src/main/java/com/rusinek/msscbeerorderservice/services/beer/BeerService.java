@@ -1,6 +1,6 @@
 package com.rusinek.msscbeerorderservice.services.beer;
 
-import com.rusinek.msscbeerorderservice.web.model.BeerDto;
+import com.rusinek.brewery.model.BeerDto;
 
 import java.util.UUID;
 import java.util.Optional;

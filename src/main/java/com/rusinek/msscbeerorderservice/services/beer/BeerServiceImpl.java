@@ -1,6 +1,6 @@
 package com.rusinek.msscbeerorderservice.services.beer;
 
-import com.rusinek.msscbeerorderservice.web.model.BeerDto;
+import com.rusinek.brewery.model.BeerDto;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;

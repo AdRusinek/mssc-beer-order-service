@@ -1,7 +1,7 @@
 package com.rusinek.msscbeerorderservice.web.mappers;
 
 import com.rusinek.msscbeerorderservice.domain.BeerOrder;
-import com.rusinek.msscbeerorderservice.web.model.BeerOrderDto;
+import com.rusinek.brewery.model.BeerOrderDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

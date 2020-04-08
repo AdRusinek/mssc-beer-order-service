@@ -2,8 +2,8 @@ package com.rusinek.msscbeerorderservice.web.controllers;
 
 import com.rusinek.msscbeerorderservice.services.BeerOrderService;
 
-import com.rusinek.msscbeerorderservice.web.model.BeerOrderDto;
-import com.rusinek.msscbeerorderservice.web.model.BeerOrderPagedList;
+import com.rusinek.brewery.model.BeerOrderDto;
+import com.rusinek.brewery.model.BeerOrderPagedList;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

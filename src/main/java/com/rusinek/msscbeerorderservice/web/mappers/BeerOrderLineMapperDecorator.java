@@ -2,8 +2,8 @@ package com.rusinek.msscbeerorderservice.web.mappers;
 
 import com.rusinek.msscbeerorderservice.domain.BeerOrderLine;
 import com.rusinek.msscbeerorderservice.services.beer.BeerService;
-import com.rusinek.msscbeerorderservice.web.model.BeerDto;
-import com.rusinek.msscbeerorderservice.web.model.BeerOrderLineDto;
+import com.rusinek.brewery.model.BeerDto;
+import com.rusinek.brewery.model.BeerOrderLineDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
