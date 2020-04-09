@@ -32,11 +32,12 @@ public class BeerOrderStateMachineConfig extends StateMachineConfigurerAdapter<B
     public void configure(StateMachineStateConfigurer<BeerOrderStatusEnum, BeerOrderEventEnum> states) throws Exception {
         states.withStates().initial(NEW)
                 .states(EnumSet.allOf(BeerOrderStatusEnum.class))
-                .end(BeerOrderStatusEnum.PICKED_UP)
-                .end(BeerOrderStatusEnum.DELIVERED)
-                .end(BeerOrderStatusEnum.DELIVERY_EXCEPTION)
-                .end(BeerOrderStatusEnum.VALIDATION_EXCEPTION)
-                .end(BeerOrderStatusEnum.ALLOCATION_EXCEPTION);
+                .end(PICKED_UP)
+                .end(DELIVERED)
+                .end(CANCELED)
+                .end(DELIVERY_EXCEPTION)
+                .end(VALIDATION_EXCEPTION)
+                .end(ALLOCATION_EXCEPTION);
     }
 
     @Override
@@ -54,6 +55,11 @@ public class BeerOrderStateMachineConfig extends StateMachineConfigurerAdapter<B
                 .and()
                     .withExternal()
                     .source(VALIDATION_PENDING)
+                    .target(CANCELED)
+                    .event(CANCEL_ORDER)
+                .and()
+                    .withExternal()
+                    .source(VALIDATION_PENDING)
                     .target(VALIDATION_EXCEPTION)
                     .event(VALIDATION_FAILED)
                     .action(validationFailureAction)
@@ -63,6 +69,11 @@ public class BeerOrderStateMachineConfig extends StateMachineConfigurerAdapter<B
                     .target(ALLOCATION_PENDING)
                     .event(ALLOCATE_ORDER)
                     .action(allocateOrderAction)
+                .and()
+                    .withExternal()
+                    .source(VALIDATED)
+                    .target(CANCELED)
+                    .event(CANCEL_ORDER)
                 .and()
                     .withExternal()
                     .source(ALLOCATION_PENDING)
@@ -77,12 +88,22 @@ public class BeerOrderStateMachineConfig extends StateMachineConfigurerAdapter<B
                 .and()
                     .withExternal()
                     .source(ALLOCATION_PENDING)
+                    .target(CANCELED)
+                    .event(CANCEL_ORDER)
+                .and()
+                    .withExternal()
+                    .source(ALLOCATION_PENDING)
                     .target(PENDING_INVENTORY)
                     .event(ALLOCATION_NO_INVENTORY)
                 .and()
                     .withExternal()
                     .source(ALLOCATED)
                     .target(PICKED_UP)
-                    .event(BEER_ORDER_PICKED_UP);
+                    .event(BEER_ORDER_PICKED_UP)
+                .and()
+                    .withExternal()
+                    .source(ALLOCATED)
+                    .target(CANCELED)
+                    .event(CANCEL_ORDER);
     }
 }
