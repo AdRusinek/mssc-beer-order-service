@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
-import static com.rusinek.msscbeerorderservice.config.JmsConfig.ALLOCATE_ORDER_RESPONE_QUEUE;
+import static com.rusinek.msscbeerorderservice.config.JmsConfig.ALLOCATE_ORDER_RESPONSE_QUEUE;
 
 /**
  * Created by Adrian Rusinek on 09.04.2020
@@ -19,7 +19,7 @@ public class BeerOrderAllocationResultListener {
 
     private final BeerOrderManager beerOrderManager;
 
-    @JmsListener(destination = ALLOCATE_ORDER_RESPONE_QUEUE)
+    @JmsListener(destination = ALLOCATE_ORDER_RESPONSE_QUEUE)
     public void listen(AllocateOrderResult result) {
         if (!result.getAllocationError() && !result.getPendingInventory()) {
             //allocated normally
