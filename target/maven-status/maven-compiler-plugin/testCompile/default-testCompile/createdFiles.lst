@@ -1,1 +1,5 @@
 com\rusinek\msscbeerorderservice\MsscBeerOrderServiceApplicationTests.class
+com\rusinek\msscbeerorderservice\services\BeerOrderManagerImplIT.class
+com\rusinek\msscbeerorderservice\services\testcomponents\BeerOrderAllocationListener.class
+com\rusinek\msscbeerorderservice\services\testcomponents\BeerOrderValidationListener.class
+com\rusinek\msscbeerorderservice\services\BeerOrderManagerImplIT$RestTemplateBuilderProvider.class
